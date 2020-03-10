@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/header :: common-header"/>
+<body roleId="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<head th:replace="common/header :: navbar"/>
+<div class="container main">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--<h1 class="page-header">Dashboard</h1>-->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <h2>Primary Balance: </h2>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <h1><i class="fa fa-usd" aria-hidden="true"></i> <span
+                                    th:text="${primaryAccount.accountBalance}">...</span></h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- /.row -->
+  
+<tbody><tr>
+            <td>From:</td>
+            <td><input type="date" id="from" name="from"></td>
+        </tr>
+        <tr>
+            <td>To:</td>
+            <td><input type="date" id="to" name="to"></td>
+        </tr>
+    </tbody>
+    <div class="table-responsive">
+        <table id="example" class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr>
+                <th>Post Date</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Amount</th>
+                <th>Available Balance</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-th-each="primaryTransaction : ${primaryTransactionList}">
+                <td data-th-text="${primaryTransaction.date}">...</td>
+                <td data-th-text="${primaryTransaction.description}">...</td>
+                <td data-th-text="${primaryTransaction.type}">...</td>
+                <td data-th-text="${primaryTransaction.status}">...</td>
+                <td data-th-text="${primaryTransaction.amount}">...</td>
+                <td data-th-text="${primaryTransaction.availableBalance}">...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div th:replace="common/header :: body-bottom-scripts"/>
+<script>
+
+$.fn.dataTableExt.afnFiltering.push(
+        function(oSettings, aData, iDataIndex){
+            var dateStart = parseDateValue($("#from").val());
+            var dateEnd = parseDateValue($("#to").val());
+            // aData represents the table structure as an array of columns, so the script access the date value
+            // in the first column of the table via aData[0]
+            var evalDate= parseDateValue(aData[0]);
+            if (evalDate >= dateStart && evalDate <= dateEnd) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    // Function for converting a mm/dd/yyyy date value into a numeric string for comparison (example 08/12/2010 becomes 20100812
+    function parseDateValue(rawDate) {
+        var dateArray= rawDate.split("/");
+        var parsedDate= dateArray[2] + dateArray[0] + dateArray[1];
+        return parsedDate;
+    }
+    $(document).ready(function() {
+        var table = $('#example').DataTable();
+         
+        // Event listener to the two range filtering inputs to redraw on input
+        $('#from, #to').change( function() {
+            table.draw();
+        } );
+    } );
+ 
+	//$(document).ready(function() {
+	   // var table = $('#example').DataTable();
+	  
+	//} );
+</script>
+</body>
+</html>

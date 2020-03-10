@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/header :: common-header"/>
+<body>
+<!-- Login Section -->
+    <img class="img-responsive" src="/images/banner2.png" alt="banner"/>
+    <div class="container">
+        <div class="row ">
+            <div class="main-center ">
+                <h1>Congratulation you have successfully registered in the Bank with message that his ATM card and pin number will be dispatched at his postal address</h1>
+               
+                
+                <hr />
+                
+                <div class="form-group ">
+                    <a type="submit" class="btn btn-info btn-lg btn-block login-button" th:href="@{/index}">Login!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div th:replace="common/header :: body-bottom-scripts"/>
+
+</body>
+</html>
